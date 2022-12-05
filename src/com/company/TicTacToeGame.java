@@ -30,4 +30,23 @@ public class TicTacToeGame {
 
 
     }
+
+    public void showBoard() {
+        String lines = "___________";
+        int currentBoardIndex = 1;
+        for (int i = 1; i <= 7; i++) {
+            if (i % 2 == 1) {
+                System.out.println(lines);
+                continue;
+            }
+            for (int j = 1; j <= 12; j++) {
+                if (j % 4 == 1) {
+                    System.out.print(board[currentBoardIndex++]);
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+    }
 }

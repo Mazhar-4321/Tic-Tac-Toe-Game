@@ -6,5 +6,6 @@ public class Main {
         System.out.println("Welcome To Tic Tac Toe Game");
         TicTacToeGame ticTacToeGame = new TicTacToeGame();
         ticTacToeGame.allowPlayerToGiveInput();
+        ticTacToeGame.showBoard();
     }
 }
