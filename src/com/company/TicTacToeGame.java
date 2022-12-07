@@ -117,19 +117,47 @@ public class TicTacToeGame {
     }
 
     private boolean checkColumn(char letter, int startIndex, int endIndex) {
-        return false;
+        boolean result = true;
+        while (startIndex <= endIndex) {
+            if (board[startIndex] != letter) {
+                return false;
+            }
+            startIndex += 3;
+        }
+        return result;
     }
 
     private boolean checkRow(char letter, int startIndex, int endIndex) {
-        return false;
+        boolean result = true;
+        while (startIndex <= endIndex) {
+            if (board[startIndex] != letter) {
+                return false;
+            }
+            startIndex += 1;
+        }
+        return result;
     }
 
     private boolean checkForwardDiagonal(char letter, int startIndex, int endIndex) {
-        return false;
+        boolean result = true;
+        while (startIndex <= endIndex) {
+            if (board[startIndex] != letter) {
+                return false;
+            }
+            startIndex += 4;
+        }
+        return result;
     }
 
     private boolean checkReverseDiagonal(char letter, int startIndex, int endIndex) {
-        return false;
+        boolean result = true;
+        while (startIndex <= endIndex) {
+            if (board[startIndex] != letter) {
+                return false;
+            }
+            startIndex += 2;
+        }
+        return result;
     }
 
     private boolean validateIndexForFreeSpace(int index) {
