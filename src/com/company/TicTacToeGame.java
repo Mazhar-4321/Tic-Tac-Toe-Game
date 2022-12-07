@@ -49,4 +49,10 @@ public class TicTacToeGame {
             System.out.println();
         }
     }
+
+    public void allowUserToMakeMoves() {
+        System.out.println("Please Select A Digit From 1 to 9");
+        int index=scanner.nextInt();
+    }
+
 }
