@@ -67,6 +67,7 @@ public class TicTacToeGame {
             System.out.println("Position" + index + " is Already Occupied, Please Enter a Different Number");
             index = scanner.nextInt();
         }
+        noOfSpacesOccupied += 1;
         indexSelectedByPlayer = index;
     }
 
@@ -90,22 +91,15 @@ public class TicTacToeGame {
         } else {
             playerOrComputerLetter = computerLetter;
         }
-        int rowStartIndex = indexSelectedByPlayer >= 1 && indexSelectedByPlayer <= 3 ? 1 : (indexSelectedByPlayer >= 4 && indexSelectedByPlayer <= 6) ? 4 : 7;
-        int rowEndIndex = rowStartIndex + 2;
-        if (checkColumn(playerOrComputerLetter, indexSelectedByPlayer - 3, indexSelectedByPlayer + 3) ||
-                checkRow(playerOrComputerLetter, rowStartIndex, rowEndIndex)) {
-            System.out.println(currentPlayer == USER ? "Player Won" : "Computer Won");
-            return;
-        }
-        if (indexSelectedByPlayer == 5 && (checkForwardDiagonal(playerOrComputerLetter, 1, 9) || checkReverseDiagonal(playerOrComputerLetter, 3, 7))) {
-            System.out.println(currentPlayer == USER ? "Player Won" : "Computer Won");
-            return;
-        }
-        if ((indexSelectedByPlayer == 3 || indexSelectedByPlayer == 7) && checkReverseDiagonal(playerOrComputerLetter, 3, 7)) {
-            System.out.println(currentPlayer == USER ? "Player Won" : "Computer Won");
-            return;
-        }
-        if ((indexSelectedByPlayer == 1 || indexSelectedByPlayer == 9) && (checkForwardDiagonal(playerOrComputerLetter, 1, 9))) {
+        int rowStartAndEndIndexes[];
+        rowStartAndEndIndexes = getRowStartAndEndIndex();
+        int columnStartAndEndIndexes[];
+        columnStartAndEndIndexes = getColumnStartAndEndIndex();
+        if (checkForAllWinningSequences(playerOrComputerLetter, rowStartAndEndIndexes[0], rowStartAndEndIndexes[1], 1)
+                || checkForAllWinningSequences(playerOrComputerLetter, 3, 7, 2)
+                || checkForAllWinningSequences(playerOrComputerLetter, columnStartAndEndIndexes[0], columnStartAndEndIndexes[1], 3)
+                || checkForAllWinningSequences(playerOrComputerLetter, 1, 9, 4)
+        ) {
             System.out.println(currentPlayer == USER ? "Player Won" : "Computer Won");
             return;
         }
@@ -116,46 +110,28 @@ public class TicTacToeGame {
         currentPlayer = currentPlayer == USER ? COMPUTER : USER;
     }
 
-    private boolean checkColumn(char letter, int startIndex, int endIndex) {
-        boolean result = true;
-        while (startIndex <= endIndex) {
-            if (board[startIndex] != letter) {
-                return false;
-            }
-            startIndex += 3;
-        }
-        return result;
+    private int[] getColumnStartAndEndIndex() {
+        int[] columnIndexes = new int[2];
+        columnIndexes[0] = indexSelectedByPlayer == 1 || indexSelectedByPlayer == 2 || indexSelectedByPlayer == 3 ? indexSelectedByPlayer :
+                indexSelectedByPlayer == 4 || indexSelectedByPlayer == 5 || indexSelectedByPlayer == 6 ? indexSelectedByPlayer - 3 : indexSelectedByPlayer - 6;
+        columnIndexes[1] = columnIndexes[0] + 6;
+        return columnIndexes;
     }
 
-    private boolean checkRow(char letter, int startIndex, int endIndex) {
-        boolean result = true;
-        while (startIndex <= endIndex) {
-            if (board[startIndex] != letter) {
-                return false;
-            }
-            startIndex += 1;
-        }
-        return result;
+    private int[] getRowStartAndEndIndex() {
+        int[] rowIndexes = new int[2];
+        rowIndexes[0] = indexSelectedByPlayer >= 1 && indexSelectedByPlayer <= 3 ? 1 : (indexSelectedByPlayer >= 4 && indexSelectedByPlayer <= 6) ? 4 : 7;
+        rowIndexes[1] = rowIndexes[0] + 2;
+        return rowIndexes;
     }
 
-    private boolean checkForwardDiagonal(char letter, int startIndex, int endIndex) {
+    private boolean checkForAllWinningSequences(char letter, int startIndex, int endIndex, int offset) {
         boolean result = true;
         while (startIndex <= endIndex) {
             if (board[startIndex] != letter) {
                 return false;
             }
-            startIndex += 4;
-        }
-        return result;
-    }
-
-    private boolean checkReverseDiagonal(char letter, int startIndex, int endIndex) {
-        boolean result = true;
-        while (startIndex <= endIndex) {
-            if (board[startIndex] != letter) {
-                return false;
-            }
-            startIndex += 2;
+            startIndex += offset;
         }
         return result;
     }
