@@ -9,5 +9,6 @@ public class Main {
         ticTacToeGame.showBoard();
         ticTacToeGame.allowUserToMakeMoves();
         ticTacToeGame.tossToDecideFirstPlayer();
+        ticTacToeGame.determineResultOfGame();
     }
 }

@@ -10,6 +10,8 @@ public class TicTacToeGame {
     private char playerLetter;
     private char computerLetter;
     private int currentPlayer;
+    private int indexSelectedByPlayer;
+    private int noOfSpacesOccupied;
 
     public TicTacToeGame() {
         board = new char[10];
@@ -65,6 +67,7 @@ public class TicTacToeGame {
             System.out.println("Position" + index + " is Already Occupied, Please Enter a Different Number");
             index = scanner.nextInt();
         }
+        indexSelectedByPlayer = index;
     }
 
     public void tossToDecideFirstPlayer() {
@@ -78,6 +81,55 @@ public class TicTacToeGame {
 
     private int getRandomNumber(int min, int max) {
         return (int) Math.floor(Math.random() * (max - min + 1) + min) % 2;
+    }
+
+    public void determineResultOfGame() {
+        char playerOrComputerLetter;
+        if (currentPlayer == USER) {
+            playerOrComputerLetter = playerLetter;
+        } else {
+            playerOrComputerLetter = computerLetter;
+        }
+        int rowStartIndex = indexSelectedByPlayer >= 1 && indexSelectedByPlayer <= 3 ? 1 : (indexSelectedByPlayer >= 4 && indexSelectedByPlayer <= 6) ? 4 : 7;
+        int rowEndIndex = rowStartIndex + 2;
+        if (checkColumn(playerOrComputerLetter, indexSelectedByPlayer - 3, indexSelectedByPlayer + 3) ||
+                checkRow(playerOrComputerLetter, rowStartIndex, rowEndIndex)) {
+            System.out.println(currentPlayer == USER ? "Player Won" : "Computer Won");
+            return;
+        }
+        if (indexSelectedByPlayer == 5 && (checkForwardDiagonal(playerOrComputerLetter, 1, 9) || checkReverseDiagonal(playerOrComputerLetter, 3, 7))) {
+            System.out.println(currentPlayer == USER ? "Player Won" : "Computer Won");
+            return;
+        }
+        if ((indexSelectedByPlayer == 3 || indexSelectedByPlayer == 7) && checkReverseDiagonal(playerOrComputerLetter, 3, 7)) {
+            System.out.println(currentPlayer == USER ? "Player Won" : "Computer Won");
+            return;
+        }
+        if ((indexSelectedByPlayer == 1 || indexSelectedByPlayer == 9) && (checkForwardDiagonal(playerOrComputerLetter, 1, 9))) {
+            System.out.println(currentPlayer == USER ? "Player Won" : "Computer Won");
+            return;
+        }
+        if (noOfSpacesOccupied == 9) {
+            System.out.println("Game Drawn");
+            return;
+        }
+        currentPlayer = currentPlayer == USER ? COMPUTER : USER;
+    }
+
+    private boolean checkColumn(char letter, int startIndex, int endIndex) {
+        return false;
+    }
+
+    private boolean checkRow(char letter, int startIndex, int endIndex) {
+        return false;
+    }
+
+    private boolean checkForwardDiagonal(char letter, int startIndex, int endIndex) {
+        return false;
+    }
+
+    private boolean checkReverseDiagonal(char letter, int startIndex, int endIndex) {
+        return false;
     }
 
     private boolean validateIndexForFreeSpace(int index) {
