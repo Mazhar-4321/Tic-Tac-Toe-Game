@@ -84,6 +84,17 @@ public class TicTacToeGame {
         return (int) Math.floor(Math.random() * (max - min + 1) + min) % 2;
     }
 
+    private void addIntelligenceToComputer() {
+        int count = checkForAllWinningSequences(computerLetter, 1, 3, 1, 1) == 3 ? 3 :
+                checkForAllWinningSequences(computerLetter, 4, 6, 1, 1) == 3 ? 3 :
+                        checkForAllWinningSequences(computerLetter, 7, 9, 1, 1) == 3 ? 3 :
+                                checkForAllWinningSequences(computerLetter, 1, 7, 3, 1) == 3 ? 3 :
+                                        checkForAllWinningSequences(computerLetter, 2, 8, 3, 1) == 3 ? 3 :
+                                                checkForAllWinningSequences(computerLetter, 3, 9, 3, 1) == 3 ? 3 :
+                                                        checkForAllWinningSequences(computerLetter, 1, 9, 4, 1) == 3 ? 3 :
+                                                                checkForAllWinningSequences(computerLetter, 3, 7, 2, 1) == 3 ? 3 : -1;
+    }
+
     public void determineResultOfGame() {
         char playerOrComputerLetter;
         if (currentPlayer == USER) {
@@ -95,10 +106,10 @@ public class TicTacToeGame {
         rowStartAndEndIndexes = getRowStartAndEndIndex();
         int columnStartAndEndIndexes[];
         columnStartAndEndIndexes = getColumnStartAndEndIndex();
-        if (checkForAllWinningSequences(playerOrComputerLetter, rowStartAndEndIndexes[0], rowStartAndEndIndexes[1], 1)
-                || checkForAllWinningSequences(playerOrComputerLetter, 3, 7, 2)
-                || checkForAllWinningSequences(playerOrComputerLetter, columnStartAndEndIndexes[0], columnStartAndEndIndexes[1], 3)
-                || checkForAllWinningSequences(playerOrComputerLetter, 1, 9, 4)
+        if (checkForAllWinningSequences(playerOrComputerLetter, rowStartAndEndIndexes[0], rowStartAndEndIndexes[1], 1, 0) == 3
+                || checkForAllWinningSequences(playerOrComputerLetter, 3, 7, 2, 0) == 3
+                || checkForAllWinningSequences(playerOrComputerLetter, columnStartAndEndIndexes[0], columnStartAndEndIndexes[1], 3, 0) == 3
+                || checkForAllWinningSequences(playerOrComputerLetter, 1, 9, 4, 0) == 3
         ) {
             System.out.println(currentPlayer == USER ? "Player Won" : "Computer Won");
             return;
@@ -125,15 +136,24 @@ public class TicTacToeGame {
         return rowIndexes;
     }
 
-    private boolean checkForAllWinningSequences(char letter, int startIndex, int endIndex, int offset) {
+    private int checkForAllWinningSequences(char letter, int startIndex, int endIndex, int offset, int intelligence) {
         boolean result = true;
+        int count = 0;
+        int availableSpot = -1;
         while (startIndex <= endIndex) {
             if (board[startIndex] != letter) {
-                return  false;
+                startIndex += offset;
+                availableSpot = startIndex;
+                continue;
             }
+            count += 1;
             startIndex += offset;
         }
-        return result;
+        if (count == 2 && intelligence == 1) {
+            board[availableSpot] = letter;
+            return 3;
+        }
+        return count;
     }
 
     private boolean validateIndexForFreeSpace(int index) {
