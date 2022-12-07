@@ -52,7 +52,18 @@ public class TicTacToeGame {
 
     public void allowUserToMakeMoves() {
         System.out.println("Please Select A Digit From 1 to 9");
-        int index=scanner.nextInt();
+        int index = scanner.nextInt();
+        while (index < 1 || index > 9) {
+            System.out.println("Invalid Index , Enter a Digit From 1 to 9");
+            index = scanner.nextInt();
+        }
+        while (validateIndexForFreeSpace(index)) {
+            System.out.println("Position" + index + " is Already Occupied, Please Enter a Different Number");
+            index = scanner.nextInt();
+        }
     }
 
+    private boolean validateIndexForFreeSpace(int index) {
+        return board[index] == ' ';
+    }
 }
