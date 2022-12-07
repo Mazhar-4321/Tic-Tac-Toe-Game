@@ -129,7 +129,7 @@ public class TicTacToeGame {
         boolean result = true;
         while (startIndex <= endIndex) {
             if (board[startIndex] != letter) {
-                return false;
+                return  false;
             }
             startIndex += offset;
         }
