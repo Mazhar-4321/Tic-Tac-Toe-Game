@@ -8,5 +8,6 @@ public class Main {
         ticTacToeGame.allowPlayerToGiveInput();
         ticTacToeGame.showBoard();
         ticTacToeGame.allowUserToMakeMoves();
+        ticTacToeGame.tossToDecideFirstPlayer();
     }
 }

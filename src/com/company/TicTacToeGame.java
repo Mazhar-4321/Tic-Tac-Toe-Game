@@ -4,12 +4,16 @@ import java.util.Scanner;
 
 public class TicTacToeGame {
     private final Scanner scanner = new Scanner(System.in);
+    private final int USER = 0;
+    private final int COMPUTER = 1;
     private char[] board;
     private char playerLetter;
     private char computerLetter;
+    private int currentPlayer;
 
     public TicTacToeGame() {
         board = new char[10];
+        currentPlayer = USER;
     }
 
     public void allowPlayerToGiveInput() {
@@ -61,6 +65,19 @@ public class TicTacToeGame {
             System.out.println("Position" + index + " is Already Occupied, Please Enter a Different Number");
             index = scanner.nextInt();
         }
+    }
+
+    public void tossToDecideFirstPlayer() {
+        if (getRandomNumber(0, 9) == 1) {
+            System.out.println("Computer is the Player 1");
+            currentPlayer = COMPUTER;
+        } else {
+            System.out.println("User is the Player 1");
+        }
+    }
+
+    private int getRandomNumber(int min, int max) {
+        return (int) Math.floor(Math.random() * (max - min + 1) + min) % 2;
     }
 
     private boolean validateIndexForFreeSpace(int index) {
