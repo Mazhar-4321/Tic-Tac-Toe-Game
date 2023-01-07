@@ -134,19 +134,19 @@ public class TicTacToeGame {
     }
 
     private boolean makeCornerMovesIfPossible() {
-        if (board[0] != computerLetter || board[0] != playerLetter) {
+        if (board[0] != computerLetter && board[0] != playerLetter) {
             board[0] = computerLetter;
             return true;
         }
-        if (board[2] != computerLetter || board[2] != playerLetter) {
+        if (board[2] != computerLetter && board[2] != playerLetter) {
             board[2] = computerLetter;
             return true;
         }
-        if (board[6] != computerLetter || board[6] != playerLetter) {
+        if (board[6] != computerLetter && board[6] != playerLetter) {
             board[6] = computerLetter;
             return true;
         }
-        if (board[8] != computerLetter || board[8] != playerLetter) {
+        if (board[8] != computerLetter && board[8] != playerLetter) {
             board[8] = computerLetter;
             return true;
         }
