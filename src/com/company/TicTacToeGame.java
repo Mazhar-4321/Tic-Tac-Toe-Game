@@ -134,23 +134,40 @@ public class TicTacToeGame {
     }
 
     private boolean makeCornerMovesIfPossible() {
-        if (board[0] != computerLetter || board[0] != playerLetter) {
+        if (board[0] != computerLetter && board[0] != playerLetter) {
             board[0] = computerLetter;
             return true;
         }
-        if (board[2] != computerLetter || board[2] != playerLetter) {
+        if (board[2] != computerLetter && board[2] != playerLetter) {
             board[2] = computerLetter;
             return true;
         }
-        if (board[6] != computerLetter || board[6] != playerLetter) {
+        if (board[6] != computerLetter && board[6] != playerLetter) {
             board[6] = computerLetter;
             return true;
         }
-        if (board[8] != computerLetter || board[8] != playerLetter) {
+        if (board[8] != computerLetter && board[8] != playerLetter) {
             board[8] = computerLetter;
             return true;
         }
         return false;
+    }
+
+    private boolean makeCentreMove() {
+        if (board[4] != computerLetter && board[4] != playerLetter) {
+            board[4] = computerLetter;
+            return true;
+        }
+        return false;
+    }
+
+    private void makeMoveAtAnyAvailableSpot() {
+        for (int i = 0; i < 9; i++) {
+            if (board[i] != computerLetter && board[i] != playerLetter) {
+                board[i] = computerLetter;
+                break;
+            }
+        }
     }
 
     private int[] getColumnStartAndEndIndex() {
