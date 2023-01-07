@@ -85,16 +85,21 @@ public class TicTacToeGame {
     }
 
     private void addIntelligenceToComputer() {
-        int count = checkForAllWinningSequences(computerLetter, 1, 3, 1, 1) == 3 ? 3 :
-                checkForAllWinningSequences(computerLetter, 4, 6, 1, 1) == 3 ? 3 :
-                        checkForAllWinningSequences(computerLetter, 7, 9, 1, 1) == 3 ? 3 :
-                                checkForAllWinningSequences(computerLetter, 1, 7, 3, 1) == 3 ? 3 :
-                                        checkForAllWinningSequences(computerLetter, 2, 8, 3, 1) == 3 ? 3 :
-                                                checkForAllWinningSequences(computerLetter, 3, 9, 3, 1) == 3 ? 3 :
-                                                        checkForAllWinningSequences(computerLetter, 1, 9, 4, 1) == 3 ? 3 :
-                                                                checkForAllWinningSequences(computerLetter, 3, 7, 2, 1) == 3 ? 3 : -1;
+        checkIfComputerOrPlayerWins(computerLetter,1);
     }
-
+    private void blockOpponentWinningMoves(){
+        checkIfComputerOrPlayerWins(playerLetter,-1);
+    }
+    private int checkIfComputerOrPlayerWins(char computerOrPlayerLetter,int intelligence){
+        return checkForAllWinningSequences(computerOrPlayerLetter, 1, 3, 1, intelligence) == 3 ? 3 :
+                checkForAllWinningSequences(computerOrPlayerLetter, 4, 6, 1, intelligence) == 3 ? 3 :
+                        checkForAllWinningSequences(computerOrPlayerLetter, 7, 9, 1, intelligence) == 3 ? 3 :
+                                checkForAllWinningSequences(computerOrPlayerLetter, 1, 7, 3, intelligence) == 3 ? 3 :
+                                        checkForAllWinningSequences(computerOrPlayerLetter, 2, 8, 3, intelligence) == 3 ? 3 :
+                                                checkForAllWinningSequences(computerOrPlayerLetter, 3, 9, 3, intelligence) == 3 ? 3 :
+                                                        checkForAllWinningSequences(computerOrPlayerLetter, 1, 9, 4, intelligence) == 3 ? 3 :
+                                                                checkForAllWinningSequences(computerOrPlayerLetter, 3, 7, 2, intelligence) == 3 ? 3 : -1;
+    }
     public void determineResultOfGame() {
         char playerOrComputerLetter;
         if (currentPlayer == USER) {
@@ -136,21 +141,24 @@ public class TicTacToeGame {
         return rowIndexes;
     }
 
-    private int checkForAllWinningSequences(char letter, int startIndex, int endIndex, int offset, int intelligence) {
-        boolean result = true;
+    private int checkForAllWinningSequences(char letter, int startIndex, int endIndex, int jumps, int intelligence) {
         int count = 0;
         int availableSpot = -1;
         while (startIndex <= endIndex) {
             if (board[startIndex] != letter) {
-                startIndex += offset;
+                startIndex += jumps;
                 availableSpot = startIndex;
                 continue;
             }
             count += 1;
-            startIndex += offset;
+            startIndex += jumps;
         }
         if (count == 2 && intelligence == 1) {
             board[availableSpot] = letter;
+            return 3;
+        }
+        if (count == 2 && intelligence == -1) {
+            board[availableSpot] = computerLetter;
             return 3;
         }
         return count;
@@ -159,4 +167,5 @@ public class TicTacToeGame {
     private boolean validateIndexForFreeSpace(int index) {
         return board[index] == ' ';
     }
+
 }
