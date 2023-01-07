@@ -71,6 +71,14 @@ public class TicTacToeGame {
         indexSelectedByPlayer = index;
     }
 
+    private int getRandomNumber(int min, int max) {
+        return (int) Math.floor(Math.random() * (max - min + 1) + min) % 2;
+    }
+
+    private boolean validateIndexForFreeSpace(int index) {
+        return board[index] == ' ';
+    }
+
     public void tossToDecideFirstPlayer() {
         if (getRandomNumber(0, 9) == 1) {
             System.out.println("Computer is the Player 1");
@@ -80,26 +88,6 @@ public class TicTacToeGame {
         }
     }
 
-    private int getRandomNumber(int min, int max) {
-        return (int) Math.floor(Math.random() * (max - min + 1) + min) % 2;
-    }
-
-    private void addIntelligenceToComputer() {
-        checkIfComputerOrPlayerWins(computerLetter,1);
-    }
-    private void blockOpponentWinningMoves(){
-        checkIfComputerOrPlayerWins(playerLetter,-1);
-    }
-    private int checkIfComputerOrPlayerWins(char computerOrPlayerLetter,int intelligence){
-        return checkForAllWinningSequences(computerOrPlayerLetter, 1, 3, 1, intelligence) == 3 ? 3 :
-                checkForAllWinningSequences(computerOrPlayerLetter, 4, 6, 1, intelligence) == 3 ? 3 :
-                        checkForAllWinningSequences(computerOrPlayerLetter, 7, 9, 1, intelligence) == 3 ? 3 :
-                                checkForAllWinningSequences(computerOrPlayerLetter, 1, 7, 3, intelligence) == 3 ? 3 :
-                                        checkForAllWinningSequences(computerOrPlayerLetter, 2, 8, 3, intelligence) == 3 ? 3 :
-                                                checkForAllWinningSequences(computerOrPlayerLetter, 3, 9, 3, intelligence) == 3 ? 3 :
-                                                        checkForAllWinningSequences(computerOrPlayerLetter, 1, 9, 4, intelligence) == 3 ? 3 :
-                                                                checkForAllWinningSequences(computerOrPlayerLetter, 3, 7, 2, intelligence) == 3 ? 3 : -1;
-    }
     public void determineResultOfGame() {
         char playerOrComputerLetter;
         if (currentPlayer == USER) {
@@ -124,6 +112,45 @@ public class TicTacToeGame {
             return;
         }
         currentPlayer = currentPlayer == USER ? COMPUTER : USER;
+    }
+
+    private void addIntelligenceToComputer() {
+        checkIfComputerOrPlayerWins(computerLetter, 1);
+    }
+
+    private void blockOpponentWinningMoves() {
+        checkIfComputerOrPlayerWins(playerLetter, -1);
+    }
+
+    private int checkIfComputerOrPlayerWins(char computerOrPlayerLetter, int intelligence) {
+        return checkForAllWinningSequences(computerOrPlayerLetter, 1, 3, 1, intelligence) == 3 ? 3 :
+                checkForAllWinningSequences(computerOrPlayerLetter, 4, 6, 1, intelligence) == 3 ? 3 :
+                        checkForAllWinningSequences(computerOrPlayerLetter, 7, 9, 1, intelligence) == 3 ? 3 :
+                                checkForAllWinningSequences(computerOrPlayerLetter, 1, 7, 3, intelligence) == 3 ? 3 :
+                                        checkForAllWinningSequences(computerOrPlayerLetter, 2, 8, 3, intelligence) == 3 ? 3 :
+                                                checkForAllWinningSequences(computerOrPlayerLetter, 3, 9, 3, intelligence) == 3 ? 3 :
+                                                        checkForAllWinningSequences(computerOrPlayerLetter, 1, 9, 4, intelligence) == 3 ? 3 :
+                                                                checkForAllWinningSequences(computerOrPlayerLetter, 3, 7, 2, intelligence) == 3 ? 3 : -1;
+    }
+
+    private boolean makeCornerMovesIfPossible() {
+        if (board[0] != computerLetter || board[0] != playerLetter) {
+            board[0] = computerLetter;
+            return true;
+        }
+        if (board[2] != computerLetter || board[2] != playerLetter) {
+            board[2] = computerLetter;
+            return true;
+        }
+        if (board[6] != computerLetter || board[6] != playerLetter) {
+            board[6] = computerLetter;
+            return true;
+        }
+        if (board[8] != computerLetter || board[8] != playerLetter) {
+            board[8] = computerLetter;
+            return true;
+        }
+        return false;
     }
 
     private int[] getColumnStartAndEndIndex() {
@@ -164,8 +191,5 @@ public class TicTacToeGame {
         return count;
     }
 
-    private boolean validateIndexForFreeSpace(int index) {
-        return board[index] == ' ';
-    }
 
 }
